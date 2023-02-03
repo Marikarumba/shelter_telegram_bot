@@ -6,7 +6,9 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Component
 public class InlineKeyboardMaker {
@@ -61,4 +63,22 @@ public class InlineKeyboardMaker {
         keyboardButtonsRow.add(button);
         return keyboardButtonsRow;
     }
+
+    //тестовый метод
+    public InlineKeyboardMarkup getInlineMessageButtonsByMap(Map<String,String> map) {
+        List<List<InlineKeyboardButton>> rowList = new ArrayList<>();
+
+        for (Map.Entry<String, String> item : map.entrySet()) {
+
+            rowList.add(getButton(
+                    map.keySet().toString(),
+                    map.values().toString()));
+        }
+        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
+        inlineKeyboardMarkup.setKeyboard(rowList);
+
+        return inlineKeyboardMarkup;
+    }
+
+
 }
