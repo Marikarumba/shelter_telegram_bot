@@ -1,4 +1,4 @@
-package com.skypro.shelter_telegram_bot.BottomMenu;
+package com.skypro.shelter_telegram_bot.constants;
 
 import lombok.Getter;
 import static com.skypro.shelter_telegram_bot.constants.BotConstants.*;

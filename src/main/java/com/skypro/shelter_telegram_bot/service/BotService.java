@@ -11,8 +11,10 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.commands.BotCommand;
 import org.telegram.telegrambots.meta.api.objects.commands.scope.BotCommandScopeDefault;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import static com.skypro.shelter_telegram_bot.constants.BotConstants.*;
 
 
@@ -34,9 +36,12 @@ public class BotService extends TelegramLongPollingBot {
         this.botConfiguration = botConfiguration;
         this.inlineKeyboardMaker = inlineKeyboardMaker;
         List<BotCommand> listOfCommands = new ArrayList<>();
+        listOfCommands.add(new BotCommand("/callvolunteer", "Позвать волонтера"));
+        listOfCommands.add(new BotCommand("/requestcall", "Перезвоните мне"));
         listOfCommands.add(new BotCommand("/start", "Запуск"));
         listOfCommands.add(new BotCommand("/data", "Мои данные"));
         listOfCommands.add(new BotCommand("/deletedata", "Удалить мои данные"));
+        listOfCommands.add(new BotCommand("/help", "Справка"));
         try {
             this.execute(new SetMyCommands(listOfCommands, new BotCommandScopeDefault(), null));
         } catch (TelegramApiException e) {
@@ -63,7 +68,7 @@ public class BotService extends TelegramLongPollingBot {
         if (update.hasMessage() && update.getMessage().hasText()) {
             String messageText = update.getMessage().getText();
             long chatId = update.getMessage().getChatId();
-            switch (messageText) {
+            switch (messageText){
                 case INITIAL_CMD:
                     startCommandReceived(chatId, update.getMessage().getChat().getFirstName());
                     break;
@@ -123,7 +128,8 @@ public class BotService extends TelegramLongPollingBot {
         message.setReplyMarkup(inlineKeyboardMaker.getInlineMessageButtons());
         try {
             execute(message);
-        } catch (TelegramApiException e) {
+        }
+        catch (TelegramApiException e){
             log.error("Error occurred: " + e.getMessage());
         }
     }
