@@ -1,6 +1,7 @@
 package com.skypro.shelter_telegram_bot;
 
-import com.skypro.shelter_telegram_bot.constants.StartMenuResourceEnum;
+import com.skypro.shelter_telegram_bot.BottomMenu.InfoShelterMenuEnum;
+import com.skypro.shelter_telegram_bot.BottomMenu.StartMenuResourceEnum;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
@@ -21,9 +22,22 @@ public class InlineKeyboardMaker {
         }
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
         inlineKeyboardMarkup.setKeyboard(rowList);
-
         return inlineKeyboardMarkup;
     }
+
+    public InlineKeyboardMarkup infoShelterMenu() {
+        List<List<InlineKeyboardButton>> rowList = new ArrayList<>();
+
+        for (InfoShelterMenuEnum infoShelterMenu : InfoShelterMenuEnum.values()) {
+            rowList.add(getButton(
+                    infoShelterMenu.getButtonNameInfo(),
+                    infoShelterMenu.getCommandInfo()));
+        }
+        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
+        inlineKeyboardMarkup.setKeyboard(rowList);
+        return inlineKeyboardMarkup;
+    }
+
 
     private List<InlineKeyboardButton> getButton(String buttonName, String command) {
         InlineKeyboardButton button = new InlineKeyboardButton();
