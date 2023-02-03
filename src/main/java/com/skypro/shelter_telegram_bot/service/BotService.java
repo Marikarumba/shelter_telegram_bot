@@ -2,6 +2,7 @@ package com.skypro.shelter_telegram_bot.service;
 
 import com.skypro.shelter_telegram_bot.InlineKeyboardMaker;
 import com.skypro.shelter_telegram_bot.configuration.BotConfiguration;
+import com.skypro.shelter_telegram_bot.model.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -11,26 +12,36 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.commands.BotCommand;
 import org.telegram.telegrambots.meta.api.objects.commands.scope.BotCommandScopeDefault;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import static com.skypro.shelter_telegram_bot.constants.BotConstants.*;
 
 
 @Slf4j
 @Component
 public class BotService extends TelegramLongPollingBot {
-
+    private final UserService userService;
     final BotConfiguration botConfiguration;
 
     private final InlineKeyboardMaker inlineKeyboardMaker;
 
+    private static final Pattern pattern = Pattern.compile("([A-Za-z]+)(\\s)([0-9\\+]{11,12})");
+
+
     /**
      * В этот конструктор можно вписать команды, которые будут открываться при нажатии кнопки меню.
      * Эта кнопка общая, доступна из любых разделов программы
+     *
+     * @param userService
      * @param botConfiguration
      * @param inlineKeyboardMaker
      */
-    public BotService(BotConfiguration botConfiguration, InlineKeyboardMaker inlineKeyboardMaker) {
+    public BotService(UserService userService, BotConfiguration botConfiguration, InlineKeyboardMaker inlineKeyboardMaker) {
+        this.userService = userService;
         this.botConfiguration = botConfiguration;
         this.inlineKeyboardMaker = inlineKeyboardMaker;
         List<BotCommand> listOfCommands = new ArrayList<>();
@@ -67,6 +78,7 @@ public class BotService extends TelegramLongPollingBot {
                 case INITIAL_CMD:
                     startCommandReceived(chatId, update.getMessage().getChat().getFirstName());
                     break;
+
                 default:
                     sendMessage(chatId, "Sorry, no such command");
             }
@@ -92,6 +104,15 @@ public class BotService extends TelegramLongPollingBot {
                 case CALL_VOLUNTEER_CMD:
                     sendMessage(chatId, VOLUNTEER_CALL);
                     break;
+                case CALL_BACK_CMD:
+                    sendMessage(chatId, "Введите ваше имя и номер телефона и мы с вами обязательно свяжемся");
+                    try {
+                        execute(new SendMessage());
+                    } catch (TelegramApiException e) {
+                        throw new RuntimeException(e);
+                    }
+                    addInformationOfUser(chatId, messageData);
+                    break;
                 default:
                     sendMessage(chatId, "Sorry, no such Bottom");
             }
@@ -100,7 +121,7 @@ public class BotService extends TelegramLongPollingBot {
 
 
     private void startCommandReceived(long chatId, String name) {
-        String answer = name + GREETING_MSG;
+        String answer = name+ " " + GREETING_MSG;
         log.info("Replied to user: " + name);
         //sendMessage(chatId,answer);
         sendStartMenu(chatId, answer);
@@ -160,6 +181,22 @@ public class BotService extends TelegramLongPollingBot {
             log.error("Error occurred: " + e.getMessage());
         }
     }
+    /**
+     * Метод, который принимает от пользователя данные и сохраняет их в базу данных.
+     *
+     * @return
+     */
+    private void addInformationOfUser(long chatId, String message){
+        Matcher messageMatcher = pattern.matcher(message);
+        String stringName = messageMatcher.group(1);
+        String notificationText = messageMatcher.group(3);
+            User user = new User();
+            user.setName(stringName);
+            user.setPhoneNumber(notificationText);
+            user.setChatId(chatId);
+            userService.createUser(user);
+        }
+
 
 
 }

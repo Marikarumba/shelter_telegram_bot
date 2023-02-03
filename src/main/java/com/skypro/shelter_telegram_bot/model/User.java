@@ -1,42 +1,24 @@
 package com.skypro.shelter_telegram_bot.model;
 
-public class User {
+import com.pengrad.telegrambot.model.Contact;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import lombok.Data;
+
+
+@Data
+@Entity
+public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private Long chatId;
     private UserStatus personStatus;
+    private String phoneNumber;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Long getChatId() {
-        return chatId;
-    }
-
-    public void setChatId(Long chatId) {
-        this.chatId = chatId;
-    }
-
-    public UserStatus getPersonStatus() {
-        return personStatus;
-    }
-
-    public void setPersonStatus(UserStatus personStatus) {
-        this.personStatus = personStatus;
-    }
 
 }

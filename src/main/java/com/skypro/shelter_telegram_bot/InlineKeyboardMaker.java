@@ -1,5 +1,4 @@
 package com.skypro.shelter_telegram_bot;
-
 import com.skypro.shelter_telegram_bot.BottomMenu.InfoShelterMenuEnum;
 import com.skypro.shelter_telegram_bot.BottomMenu.StartMenuResourceEnum;
 import org.springframework.stereotype.Component;
