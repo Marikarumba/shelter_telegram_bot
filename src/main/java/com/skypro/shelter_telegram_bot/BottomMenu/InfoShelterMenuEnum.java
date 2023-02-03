@@ -2,13 +2,16 @@ package com.skypro.shelter_telegram_bot.BottomMenu;
 
 import lombok.Getter;
 
+import static com.skypro.shelter_telegram_bot.constants.BotConstants.CALL_BACK_CMD;
+import static com.skypro.shelter_telegram_bot.constants.BotConstants.CALL_VOLUNTEER_CMD;
+
 public enum InfoShelterMenuEnum {
 
     INFO_BOTTOM_1( "I1", "Узнать о приюте"),
-    INFO_BOTTOM_2("I2", "расписание работы приюта и адрес, схему проезда"),
-    INFO_BOTTOM_3("I3", "общие рекомендации о технике безопасности на территории приюта"),
-    INFO_BOTTOM_4("I4", "принять и записать контактные данные для связи"),
-    INFO_BOTTOM_5("I5", "позвать волонтера");
+    INFO_BOTTOM_2("I2", "Расписание работы, как нас найти"),
+    INFO_BOTTOM_3("I3", "Технике безопасности на территории"),
+    INFO_BOTTOM_4(CALL_VOLUNTEER_CMD, "Позвать волонтера"),
+    INFO_BOTTOM_5(CALL_BACK_CMD, "Заказать обратный звонок");
     @Getter
     private final String commandInfo;
 

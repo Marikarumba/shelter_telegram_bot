@@ -6,7 +6,9 @@ public class BotConstants {
     public static final String FINAL_CMD = "/end";
     public static final String INFO_SHELTER_CMD = "/info";
 
+    public static final String CALL_VOLUNTEER_CMD = "/volunteer";
 
+    public static final String CALL_BACK_CMD = "/callback";
     public static final String GREETING_MSG = """
             , привет!
             Я - Бот приюта домашних животных! Если хочешь взять собаку или кошку домой я отвечу на твои вопросы,
