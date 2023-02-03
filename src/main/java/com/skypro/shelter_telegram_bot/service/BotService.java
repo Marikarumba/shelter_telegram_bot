@@ -14,7 +14,6 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import static com.skypro.shelter_telegram_bot.constants.BotConstants.*;
 
 
@@ -128,8 +127,7 @@ public class BotService extends TelegramLongPollingBot {
         message.setReplyMarkup(inlineKeyboardMaker.getInlineMessageButtons());
         try {
             execute(message);
-        }
-        catch (TelegramApiException e){
+        } catch (TelegramApiException e) {
             log.error("Error occurred: " + e.getMessage());
         }
     }
