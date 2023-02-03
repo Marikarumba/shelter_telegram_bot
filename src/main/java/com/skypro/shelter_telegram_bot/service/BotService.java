@@ -36,8 +36,6 @@ public class BotService extends TelegramLongPollingBot {
         this.inlineKeyboardMaker = inlineKeyboardMaker;
         //Создание кнопки меню
         List<BotCommand> listOfCommands = new ArrayList<>();
-        listOfCommands.add(new BotCommand("/callvolunteer", "Позвать волонтера"));
-        listOfCommands.add(new BotCommand("/requestcall", "Перезвоните мне"));
         listOfCommands.add(new BotCommand("/start", "Запуск"));
         listOfCommands.add(new BotCommand("/data", "Мои данные"));
         listOfCommands.add(new BotCommand("/deletedata", "Удалить мои данные"));
@@ -60,7 +58,7 @@ public class BotService extends TelegramLongPollingBot {
     }
 
     /**
-     *
+     * Метод для реагирования на команды:
      * @param update
      */
     // messageText (текстовые команды)
@@ -70,12 +68,13 @@ public class BotService extends TelegramLongPollingBot {
         if (update.hasMessage() && update.getMessage().hasText()) {
             String messageText = update.getMessage().getText();
             long chatId = update.getMessage().getChatId();
-            switch (messageText){
+            switch (messageText) {
                 case INITIAL_CMD:
                     startCommandReceived(chatId, update.getMessage().getChat().getFirstName());
                     break;
                 default:
                     sendMessage(chatId, "Sorry, no such command");
+                break;
             }
         } else if (update.hasCallbackQuery()) {
             String messageData = update.getCallbackQuery().getData();
@@ -101,6 +100,7 @@ public class BotService extends TelegramLongPollingBot {
                     break;
                 default:
                     sendMessage(chatId, "Sorry, no such Bottom");
+                    break;
             }
         }
     }
@@ -124,8 +124,6 @@ public class BotService extends TelegramLongPollingBot {
         try {
             execute(message);
         } catch (TelegramApiException e) {
-            log.error("Error occurred: " + e.getMessage());
-        }
     }
 
     /**
@@ -148,8 +146,8 @@ public class BotService extends TelegramLongPollingBot {
     // Тестовый метод
     private void endCommandReceived(long chatId, String textToSend){
         HashMap<String,String> menuStep3 = new HashMap<>();
-        menuStep3.put("Отправить отчет", "SENDREPORT_CMD");
-        menuStep3.put("Отправить отчет2", "SENDREPORT_CMD2");
+        menuStep3.put("Отправить отчет", "SEND_REPORT_CMD");
+        menuStep3.put("Отправить отчет2", "SEND_REPORT_CMD2");
         SendMessage message = new SendMessage();
         message.setChatId(String.valueOf(chatId));
         message.setText(textToSend);
@@ -160,7 +158,7 @@ public class BotService extends TelegramLongPollingBot {
         catch (TelegramApiException e){
             log.error("Error occurred: " + e.getMessage());
         }
-        log.info("Replied to user: " );
+        log.info("Replied to user: ");
         sendMessage(chatId, " Скоро перезвоню");
 
     }
