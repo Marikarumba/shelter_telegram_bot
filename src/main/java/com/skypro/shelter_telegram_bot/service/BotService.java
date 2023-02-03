@@ -61,6 +61,8 @@ public class BotService extends TelegramLongPollingBot {
      *
      * @param update
      */
+    // messageText (текстовые команды)
+    // messageData (команды кнопок)
     @Override
     public void onUpdateReceived(Update update) {
         if (update.hasMessage() && update.getMessage().hasText()) {
@@ -101,21 +103,14 @@ public class BotService extends TelegramLongPollingBot {
         }
     }
 
-
+    // Метод отправки стартового сообщения, вызывает метод отправки меню STEP_0
     private void startCommandReceived(long chatId, String name) {
         String answer = name + GREETING_MSG;
-        log.info("Replied to user: " + name);
-        //sendMessage(chatId,answer);
+        log.info("Start to user: " + name);
         sendStartMenu(chatId, answer);
     }
-
-    private void endCommandReceived(long chatId) {
-        log.info("Replied to user: ");
-        sendMessage(chatId, " Скоро перезвоню");
-    }
-
     /**
-     * Метод который нужен для то го то, или чего то
+     * Метод отправки стартового меню
      * @param chatId
      * @param textToSend
      */
@@ -148,8 +143,15 @@ public class BotService extends TelegramLongPollingBot {
         }
     }
 
+    // Тестовый метод
+    private void endCommandReceived(long chatId){
+        log.info("Replied to user: " );
+        sendMessage(chatId, " Скоро перезвоню");
+
+    }
+
     /**
-     *
+     * Метод отправки сообщений
      * @param chatId
      * @param textToSend
      */
