@@ -13,6 +13,7 @@ import org.telegram.telegrambots.meta.api.objects.commands.scope.BotCommandScope
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import static com.skypro.shelter_telegram_bot.constants.BotConstants.*;
@@ -25,10 +26,10 @@ public class BotService extends TelegramLongPollingBot{
     final BotConfiguration botConfiguration;
 
     private final InlineKeyboardMaker inlineKeyboardMaker;
-    //Создание кнопки меню
     public BotService(BotConfiguration botConfiguration, InlineKeyboardMaker inlineKeyboardMaker){
         this.botConfiguration = botConfiguration;
         this.inlineKeyboardMaker = inlineKeyboardMaker;
+        //Создание кнопки меню
         List<BotCommand> listOfCommands = new ArrayList<>();
         listOfCommands.add(new BotCommand("/callvolunteer", "Позвать волонтера"));
         listOfCommands.add(new BotCommand("/requestcall", "Перезвоните мне"));
@@ -67,6 +68,7 @@ public class BotService extends TelegramLongPollingBot{
                     break;
 
                 default: sendMessage(chatId, "Sorry, no such command");
+                break;
             }
         }
         else if(update.hasCallbackQuery()){
@@ -75,10 +77,11 @@ public class BotService extends TelegramLongPollingBot{
                 switch (messageData) {
 
                     case FINAL_CMD:
-                        endCommandReceived(chatId) ;
+                        endCommandReceived(chatId,"тест") ;
                         break;
                     default:
                         sendMessage(chatId, "Sorry, no such Bottom");
+                        break;
                 }
         }
     }
@@ -103,7 +106,20 @@ public class BotService extends TelegramLongPollingBot{
         }
     }
     // Тестовый метод
-    private void endCommandReceived(long chatId){
+    private void endCommandReceived(long chatId, String textToSend){
+        HashMap<String,String> menuStep3 = new HashMap<>();
+        menuStep3.put("Отправить отчет", "SENDREPORT_CMD");
+        menuStep3.put("Отправить отчет2", "SENDREPORT_CMD2");
+        SendMessage message = new SendMessage();
+        message.setChatId(String.valueOf(chatId));
+        message.setText(textToSend);
+        message.setReplyMarkup(inlineKeyboardMaker.getInlineMessageButtonsByMap(menuStep3));
+        try {
+            execute(message);
+        }
+        catch (TelegramApiException e){
+            log.error("Error occurred: " + e.getMessage());
+        }
         log.info("Replied to user: " );
         sendMessage(chatId, " Скоро перезвоню");
 
