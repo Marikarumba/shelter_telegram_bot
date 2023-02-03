@@ -25,9 +25,9 @@ public class BotService extends TelegramLongPollingBot{
     final BotConfiguration botConfiguration;
 
     private final InlineKeyboardMaker inlineKeyboardMaker;
-
+    //Создание кнопки меню
     public BotService(BotConfiguration botConfiguration, InlineKeyboardMaker inlineKeyboardMaker){
-        this.botConfiguration=botConfiguration;
+        this.botConfiguration = botConfiguration;
         this.inlineKeyboardMaker = inlineKeyboardMaker;
         List<BotCommand> listOfCommands = new ArrayList<>();
         listOfCommands.add(new BotCommand("/callvolunteer", "Позвать волонтера"));
@@ -39,7 +39,7 @@ public class BotService extends TelegramLongPollingBot{
         try {
             this.execute(new SetMyCommands(listOfCommands, new BotCommandScopeDefault(), null));
         } catch (TelegramApiException e){
-        //log.error("Command list error");
+        log.error("Command list error");
         }
     }
 
@@ -53,7 +53,9 @@ public class BotService extends TelegramLongPollingBot{
         return botConfiguration.getToken();
     }
 
-
+    // Метод для реагирования на команды:
+    // messageText (текстовые команды)
+    // messageData (команды кнопок)
     @Override
     public void onUpdateReceived(Update update) {
         if(update.hasMessage() && update.getMessage().hasText()){
@@ -81,20 +83,14 @@ public class BotService extends TelegramLongPollingBot{
         }
     }
 
-
+    // Метод отправки стартового сообщения, вызывает метод отправки меню STEP_0
     private void startCommandReceived(long chatId, String name){
         String answer = name + GREETING_MSG;
-        log.info("Replied to user: " + name);
-        //sendMessage(chatId,answer);
-        sendMessage1(chatId,answer);
+        log.info("Start to user: " + name);
+        sendStartMenu(chatId,answer);
     }
-
-    private void endCommandReceived(long chatId){
-        log.info("Replied to user: " );
-        sendMessage(chatId, " Скоро перезвоню");
-
-    }
-    private void sendMessage1(long chatId, String textToSend) {
+    // Метод отправки стартового меню
+    private void sendStartMenu(long chatId, String textToSend) {
         SendMessage message = new SendMessage();
         message.setChatId(String.valueOf(chatId));
         message.setText(textToSend);
@@ -106,6 +102,14 @@ public class BotService extends TelegramLongPollingBot{
             log.error("Error occurred: " + e.getMessage());
         }
     }
+    // Тестовый метод
+    private void endCommandReceived(long chatId){
+        log.info("Replied to user: " );
+        sendMessage(chatId, " Скоро перезвоню");
+
+    }
+
+    // Метод отправки сообщений
     private void sendMessage(long chatId, String textToSend) {
         SendMessage message = new SendMessage();
         message.setChatId(String.valueOf(chatId));
