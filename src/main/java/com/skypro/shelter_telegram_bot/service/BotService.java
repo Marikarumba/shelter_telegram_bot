@@ -26,13 +26,12 @@ public class BotService extends TelegramLongPollingBot{
     final BotConfiguration botConfiguration;
 
     private final InlineKeyboardMaker inlineKeyboardMaker;
-    public BotService(BotConfiguration botConfiguration, InlineKeyboardMaker inlineKeyboardMaker){
+
+    public BotService(BotConfiguration botConfiguration, InlineKeyboardMaker inlineKeyboardMaker) {
         this.botConfiguration = botConfiguration;
         this.inlineKeyboardMaker = inlineKeyboardMaker;
         //Создание кнопки меню
         List<BotCommand> listOfCommands = new ArrayList<>();
-        listOfCommands.add(new BotCommand("/callvolunteer", "Позвать волонтера"));
-        listOfCommands.add(new BotCommand("/requestcall", "Перезвоните мне"));
         listOfCommands.add(new BotCommand("/start", "Запуск"));
         listOfCommands.add(new BotCommand("/data", "Мои данные"));
         listOfCommands.add(new BotCommand("/deletedata", "Удалить мои данные"));
@@ -59,40 +58,42 @@ public class BotService extends TelegramLongPollingBot{
     // messageData (команды кнопок)
     @Override
     public void onUpdateReceived(Update update) {
-        if(update.hasMessage() && update.getMessage().hasText()){
+        if (update.hasMessage() && update.getMessage().hasText()) {
             String messageText = update.getMessage().getText();
             long chatId = update.getMessage().getChatId();
-            switch (messageText){
+            switch (messageText) {
                 case INITIAL_CMD:
                     startCommandReceived(chatId, update.getMessage().getChat().getFirstName());
                     break;
-
-                default: sendMessage(chatId, "Sorry, no such command");
+                default:
+                    sendMessage(chatId, "Sorry, no such command");
                 break;
             }
-        }
-        else if(update.hasCallbackQuery()){
-                String messageData = update.getCallbackQuery().getData();
-                long chatId = update.getCallbackQuery().getMessage().getChatId();
-                switch (messageData) {
+        } else if (update.hasCallbackQuery()) {
+            String messageData = update.getCallbackQuery().getData();
+            long chatId = update.getCallbackQuery().getMessage().getChatId();
+            switch (messageData) {
+                case FINAL_CMD:
+                    endCommandReceived(chatId, "тест");
+                    break;
+                case INFO_SHELTER_CMD:
+                    sendMenuIfo(chatId, INFO_SHELTER_CMD);
+                    break;
+                default:
+                    sendMessage(chatId, "Sorry, no such Bottom");
+            break;
+            }
 
-                    case FINAL_CMD:
-                        endCommandReceived(chatId,"тест") ;
-                        break;
-                    default:
-                        sendMessage(chatId, "Sorry, no such Bottom");
-                        break;
-                }
         }
     }
 
-    // Метод отправки стартового сообщения, вызывает метод отправки меню STEP_0
-    private void startCommandReceived(long chatId, String name){
+    // Метод отправки стартового сообщения, вызывает метод отправки меню Step-0
+    private void startCommandReceived(long chatId, String name) {
         String answer = name + GREETING_MSG;
         log.info("Start to user: " + name);
-        sendStartMenu(chatId,answer);
+        sendStartMenu(chatId, answer);
     }
-    // Метод отправки стартового меню
+    // Метод отправки стартового меню Step-0
     private void sendStartMenu(long chatId, String textToSend) {
         SendMessage message = new SendMessage();
         message.setChatId(String.valueOf(chatId));
@@ -100,16 +101,29 @@ public class BotService extends TelegramLongPollingBot{
         message.setReplyMarkup(inlineKeyboardMaker.getInlineMessageButtons());
         try {
             execute(message);
-        }
-        catch (TelegramApiException e){
+        } catch (TelegramApiException e) {
             log.error("Error occurred: " + e.getMessage());
         }
     }
+
+    private void sendMenuIfo(long chatId, String textToSend) {
+        SendMessage message = new SendMessage();
+        message.setChatId(String.valueOf(chatId));
+        message.setText(textToSend);
+        message.setReplyMarkup(inlineKeyboardMaker.infoShelterMenu());
+        try {
+            execute(message);
+        } catch (TelegramApiException e) {
+            log.error("Error occurred: " + e.getMessage());
+        }
+    }
+
+
     // Тестовый метод
     private void endCommandReceived(long chatId, String textToSend){
         HashMap<String,String> menuStep3 = new HashMap<>();
-        menuStep3.put("Отправить отчет", "SENDREPORT_CMD");
-        menuStep3.put("Отправить отчет2", "SENDREPORT_CMD2");
+        menuStep3.put("Отправить отчет", "SEND_REPORT_CMD");
+        menuStep3.put("Отправить отчет2", "SEND_REPORT_CMD2");
         SendMessage message = new SendMessage();
         message.setChatId(String.valueOf(chatId));
         message.setText(textToSend);
@@ -120,7 +134,7 @@ public class BotService extends TelegramLongPollingBot{
         catch (TelegramApiException e){
             log.error("Error occurred: " + e.getMessage());
         }
-        log.info("Replied to user: " );
+        log.info("Replied to user: ");
         sendMessage(chatId, " Скоро перезвоню");
 
     }
@@ -132,9 +146,8 @@ public class BotService extends TelegramLongPollingBot{
         message.setText(textToSend);
         try {
             execute(message);
-        }
-        catch (TelegramApiException e){
-          log.error("Error occurred: " + e.getMessage());
+        } catch (TelegramApiException e) {
+            log.error("Error occurred: " + e.getMessage());
         }
     }
 
