@@ -12,9 +12,9 @@ public enum StartMenuResourceEnum {
     STEP_1( INFO_SHELTER_CMD,"Информация о приюте"),
     STEP_2("K2", "Как взять животное"),
     STEP_3("K3", "Прислать отчет"),
-    STEP_4(CALL_VOLUNTEER_CMD, "Позвать волонтера"),
-    STEP_5(CALL_BACK_CMD, "Заказать обратный звонок");
-    @Getter
+    STEP_4("К4", "Позвать волонтера"),
+    STEP_5(FINAL_CMD, "Заказать обратный звонок");
+
     private final String command;
     @Getter
     private final String buttonName;

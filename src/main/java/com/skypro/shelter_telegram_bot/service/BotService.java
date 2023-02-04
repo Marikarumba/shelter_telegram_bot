@@ -13,6 +13,7 @@ import org.telegram.telegrambots.meta.api.objects.commands.scope.BotCommandScope
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import java.util.ArrayList;
 import java.util.List;
+
 import static com.skypro.shelter_telegram_bot.constants.BotConstants.*;
 
 
@@ -39,8 +40,8 @@ public class BotService extends TelegramLongPollingBot {
         listOfCommands.add(new BotCommand("/deletedata", "Удалить мои данные"));
         try {
             this.execute(new SetMyCommands(listOfCommands, new BotCommandScopeDefault(), null));
-        } catch (TelegramApiException e) {
-            //log.error("Command list error");
+        } catch (TelegramApiException e){
+        //log.error("Command list error");
         }
     }
 
@@ -123,7 +124,8 @@ public class BotService extends TelegramLongPollingBot {
         message.setReplyMarkup(inlineKeyboardMaker.getInlineMessageButtons());
         try {
             execute(message);
-        } catch (TelegramApiException e) {
+        }
+        catch (TelegramApiException e){
             log.error("Error occurred: " + e.getMessage());
         }
     }
@@ -156,8 +158,9 @@ public class BotService extends TelegramLongPollingBot {
         message.setText(textToSend);
         try {
             execute(message);
-        } catch (TelegramApiException e) {
-            log.error("Error occurred: " + e.getMessage());
+        }
+        catch (TelegramApiException e){
+          log.error("Error occurred: " + e.getMessage());
         }
     }
 
