@@ -81,7 +81,7 @@ public class BotService extends TelegramLongPollingBot {
             long chatId = update.getCallbackQuery().getMessage().getChatId();
             switch (messageData) {
                 case FINAL_CMD:
-                    endCommandReceived(chatId);
+                    endCommandReceived(chatId, "тест");
                     break;
                 case INFO_SHELTER_CMD:
                     sendMenuIfo(chatId, "Что вас интересует?");
@@ -178,6 +178,4 @@ public class BotService extends TelegramLongPollingBot {
             log.error("Error occurred: " + e.getMessage());
         }
     }
-
-
 }
