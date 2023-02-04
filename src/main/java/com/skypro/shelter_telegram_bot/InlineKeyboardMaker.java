@@ -12,7 +12,6 @@ import java.util.Map;
 @Component
 public class InlineKeyboardMaker {
 
-
     /**
      * Метод для главного меню
      * @return
