@@ -5,9 +5,9 @@ import com.skypro.shelter_telegram_bot.BottomMenu.StartMenuResourceEnum;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Component
 public class InlineKeyboardMaker {
@@ -46,6 +46,21 @@ public class InlineKeyboardMaker {
         inlineKeyboardMarkup.setKeyboard(rowList);
         return inlineKeyboardMarkup;
     }
+    // Тестовый метод кнопки
+    public InlineKeyboardMarkup getInlineMessageButtonsByMap(Map<String,String> map) {
+        List<List<InlineKeyboardButton>> rowList = new ArrayList<>();
+
+        for (Map.Entry<String, String> item : map.entrySet()) {
+
+            rowList.add(getButton(
+                    map.keySet().toString(),
+                    map.values().toString()));
+        }
+            InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
+            inlineKeyboardMarkup.setKeyboard(rowList);
+
+            return inlineKeyboardMarkup;
+        }
 
     /**
      * Создание кнопок, общий метод для всех меню

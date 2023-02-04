@@ -23,21 +23,14 @@ public class BotConstants {
     public static final String ADDRESS_CMD = "/address";
     public static final String RULES_CMD = "/rules";
 
-
-
-
-
-
-
-
     /*
     Константы по менюИнфо
      */
     public static final String SHELTER_INFO = """
              Мы приют для животных из Астаны!
             Наша цель - помочь нашим питомцам обрести новый дом!
-            Все наши животные привиты, стерилизованы и хорошо 
-            воспитанны!     
+            Все наши животные привиты, стерилизованы и хорошо
+            воспитанны!
             """;
 
     public static final String SHELTER_ADDRESS = """
