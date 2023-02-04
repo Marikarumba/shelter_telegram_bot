@@ -2,13 +2,6 @@ package com.skypro.shelter_telegram_bot.constants;
 
 public class BotConstants {
 
-    public static final String INITIAL_CMD = "/start";
-    public static final String FINAL_CMD = "/end";
-    public static final String INFO_SHELTER_CMD = "/info";
-
-    public static final String CALL_VOLUNTEER_CMD = "/volunteer";
-
-    public static final String CALL_BACK_CMD = "/callback";
     public static final String GREETING_MSG = """
             , привет!
             Я - Бот приюта домашних животных! Если хочешь взять собаку или кошку домой я отвечу на твои вопросы,
@@ -16,4 +9,64 @@ public class BotConstants {
             Чем я могу  помочь?
             """;
 
+
+    public static final String INITIAL_CMD = "/start";
+    public static final String FINAL_CMD = "/end";
+    public static final String INFO_SHELTER_CMD = "/info";
+    public static final String CALL_VOLUNTEER_CMD = "/volunteer";
+    public static final String CALL_BACK_CMD = "/callback";
+
+
+
+    public static final String INFO_SHELTER_CMD_2_MENU = "/info2";
+    public static final String ADDRESS_CMD = "/address";
+    public static final String RULES_CMD = "/rules";
+
+
+
+
+
+
+
+
+    /*
+    Константы по менюИнфо
+     */
+    public static final String SHELTER_INFO = """
+             Мы приют для животных из Астаны!
+            Наша цель - помочь нашим питомцам обрести новый дом!
+            Все наши животные привиты, стерилизованы и хорошо 
+            воспитанны!     
+            """;
+
+    public static final String SHELTER_ADDRESS = """
+             г.Астана, ул Комсомольская, дом 333.
+             телефон: 8 800 3000 600
+            """;
+
+    public static final String SHELTER_RULES = """
+             Находясь на территории приюта, пожалуйста, соблюдайте наши правила и технику безопасности!
+             \s
+             Запрещается:
+             
+                 Самостоятельно открывать выгулы и вольеры без разрешения работника приюта.
+                 Кормить животных. Этим Вы можете спровоцировать драку. Угощения разрешены только постоянным опекунам и волонтерам, во время прогулок с животными на поводке.
+                 Оставлять после себя мусор на территории приюта и прилегающей территории.
+                 Подходить близко к вольерам и гладить собак через сетку на выгулах. Животные могут быть агрессивны!
+                 Кричать, размахивать руками, бегать между будками или вольерами, пугать и дразнить животных.
+                 Посещение приюта для детей дошкольного и младшего школьного возраста без сопровождения взрослых.
+                 Нахождение на территории приюта детей среднего и старшего школьного возраста без  сопровождения взрослых или письменной справки-разрешения от родителей или законных представителей.
+                 Самостоятельно заходить в кошатник без разрешения сотрудников приюта.
+                 Подходить к лошади без разрешения работника приюта. Угощать лошадь можно только в присутствие работника приюта.
+                 Посещение приюта в состоянии алкогольного, наркотического опьянения.
+             
+            """;
+
+
+    public static final String VOLUNTEER_CALL = """
+            В данный момент все волонтеры занимаются животными,
+            как только кто то освободится, обязательно с вами свяжется.
+            Вы можете воспользоваться формой для обратной связи и
+            мы обязательно вам перезвоним
+            """;
 }
