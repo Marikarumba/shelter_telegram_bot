@@ -77,22 +77,4 @@ public class InlineKeyboardMaker {
         keyboardButtonsRow.add(button);
         return keyboardButtonsRow;
     }
-
-    //тестовый метод
-    public InlineKeyboardMarkup getInlineMessageButtonsByMap(Map<String,String> map) {
-        List<List<InlineKeyboardButton>> rowList = new ArrayList<>();
-
-        for (Map.Entry<String, String> item : map.entrySet()) {
-
-            rowList.add(getButton(
-                    map.keySet().toString(),
-                    map.values().toString()));
-        }
-        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
-        inlineKeyboardMarkup.setKeyboard(rowList);
-
-        return inlineKeyboardMarkup;
-    }
-
-
 }

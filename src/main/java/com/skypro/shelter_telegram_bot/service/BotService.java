@@ -124,6 +124,8 @@ public class BotService extends TelegramLongPollingBot {
         try {
             execute(message);
         } catch (TelegramApiException e) {
+            log.error("Error occurred: " + e.getMessage());
+        }
     }
 
     /**
