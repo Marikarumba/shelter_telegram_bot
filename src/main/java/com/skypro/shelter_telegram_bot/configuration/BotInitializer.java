@@ -1,4 +1,4 @@
-package com.skypro.shelter_telegram_bot;
+package com.skypro.shelter_telegram_bot.configuration;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

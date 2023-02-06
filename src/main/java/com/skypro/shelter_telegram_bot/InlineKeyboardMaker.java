@@ -1,16 +1,17 @@
 package com.skypro.shelter_telegram_bot;
+
 import com.skypro.shelter_telegram_bot.BottomMenu.InfoShelterMenuEnum;
 import com.skypro.shelter_telegram_bot.BottomMenu.StartMenuResourceEnum;
+import com.skypro.shelter_telegram_bot.BottomMenu.TakeAnimalHomeMenuEnum;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Component
 public class InlineKeyboardMaker {
-
 
     /**
      * Метод для главного меню
@@ -36,15 +37,48 @@ public class InlineKeyboardMaker {
     public InlineKeyboardMarkup infoShelterMenu() {
         List<List<InlineKeyboardButton>> rowList = new ArrayList<>();
 
-        for (InfoShelterMenuEnum infoShelterMenu : InfoShelterMenuEnum.values()) {
+        for (InfoShelterMenuEnum infoShelterMenuEnum : InfoShelterMenuEnum.values()) {
             rowList.add(getButton(
-                    infoShelterMenu.getButtonNameInfo(),
-                    infoShelterMenu.getCommandInfo()));
+                    infoShelterMenuEnum.getButtonNameInfo(),
+                    infoShelterMenuEnum.getCommandInfo()));
         }
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
         inlineKeyboardMarkup.setKeyboard(rowList);
         return inlineKeyboardMarkup;
     }
+
+    /**
+     * Метод для меню о том как взять животное домой
+     *
+     * @return
+     */
+    public InlineKeyboardMarkup animalHomeMenu() {
+        List<List<InlineKeyboardButton>> rowList = new ArrayList<>();
+
+        for (TakeAnimalHomeMenuEnum animalHomeMenu : TakeAnimalHomeMenuEnum.values()) {
+            rowList.add(getButton(
+                    animalHomeMenu.getButtonNameTakeHome(),
+                    animalHomeMenu.getCommandTakeHome()));
+        }
+        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
+        inlineKeyboardMarkup.setKeyboard(rowList);
+        return inlineKeyboardMarkup;
+    }
+    // Тестовый метод кнопки
+    public InlineKeyboardMarkup getInlineMessageButtonsByMap(Map<String,String> map) {
+        List<List<InlineKeyboardButton>> rowList = new ArrayList<>();
+
+        for (Map.Entry<String, String> item : map.entrySet()) {
+
+            rowList.add(getButton(
+                    map.keySet().toString(),
+                    map.values().toString()));
+        }
+            InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
+            inlineKeyboardMarkup.setKeyboard(rowList);
+
+            return inlineKeyboardMarkup;
+        }
 
     /**
      * Создание кнопок, общий метод для всех меню

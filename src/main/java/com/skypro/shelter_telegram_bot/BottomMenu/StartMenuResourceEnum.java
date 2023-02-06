@@ -6,7 +6,7 @@ import static com.skypro.shelter_telegram_bot.constants.BotConstants.*;
 public enum StartMenuResourceEnum {
 
     /*
-    Главное меню
+    Главное меню STEP_0
      */
 
     STEP_1( INFO_SHELTER_CMD,"Информация о приюте"),
