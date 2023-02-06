@@ -101,10 +101,12 @@ public class BotService extends TelegramLongPollingBot {
                 case CALL_VOLUNTEER_CMD:
                     sendMessage(chatId, VOLUNTEER_CALL);
                     break;
+
                 default:
                     sendMessage(chatId, "Sorry, no such Bottom");
                     break;
             }
+
         }
     }
 
