@@ -9,12 +9,10 @@ import static com.skypro.shelter_telegram_bot.constants.BotConstants.*;
 Меню в которое попадаешь после нажатия 1 кнопки в главном меню STEP_0 (Как взять животное)
 */
 public enum TakeAnimalHomeMenuCatEnum {
-    TAKE_HOME_BUTTON1(SOCIAL_CMD, "Знакомство с кошкой"),
-    TAKE_HOME_BUTTON2(DOCUMENTATION_CMD, "Список документов"),
-    TAKE_HOME_BUTTON3(TRANSPORTATION_CMD, "Рекомендаций по транспортировке"),
-    //TAKE_HOME_BUTTON4(COMFORT_PUPPY_CMD, "Обустройство дома для щенка"),
-    TAKE_HOME_BUTTON4(COMFORT_DOG_CMD, "Обустройству дома для кошки"),
-    //TAKE_HOME_BUTTON6(COMFORT_INV_DOG_CMD, "Обустройству дома для собаки с ограниченными возможностями"),
+    TAKE_HOME_BUTTON1(SOCIAL_CAT_CMD, "Знакомство с кошкой"),
+    TAKE_HOME_BUTTON2(DOCUMENTATION_CAT_CMD, "Список документов"),
+    TAKE_HOME_BUTTON3(TRANSPORTATION_CAT_CMD, "Рекомендаций по транспортировке"),
+    TAKE_HOME_BUTTON4(COMFORT_CAT_CMD, "Обустройство дома для кошки"),
     //TAKE_HOME_BUTTON7(KINOLOG_ADVICE_CMD, "Советы кинолога"),
     //TAKE_HOME_BUTTON8(COMPILATION_KINOLOG_CMD, "Рекомендации по  кинологам"),
     TAKE_HOME_BUTTON5(WHY_DISCLAIMER_CMD, "Причины отказа"),

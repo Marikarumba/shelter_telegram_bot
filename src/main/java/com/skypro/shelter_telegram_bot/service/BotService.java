@@ -62,7 +62,7 @@ public class BotService extends TelegramLongPollingBot {
      * Вызывает методы:
      * {@link #startCommandReceived(long, String)}
      * {@link #sendMessage(long, String)} )}
-     * {@link #sendMenuTakeHome(long, String)}
+     * {@link #sendMenuTakeHomeDog(long, String)}
      * {@link #sendMenuIfo(long, String)}
      * @param update сообщения от пользователя (обновления)
      */
@@ -86,7 +86,7 @@ public class BotService extends TelegramLongPollingBot {
             long chatId = update.getCallbackQuery().getMessage().getChatId();
             switch (messageData) {
                 case TAKE_HOME_MENU_DOG_CMD:
-                    sendMenuTakeHome(chatId, "Что вас интересует?");
+                    sendMenuTakeHomeDog(chatId, "Что вас интересует?");
                     break;
                 case TAKE_HOME_MENU_CAT_CMD:
                     sendMenuTakeHomeCat(chatId, "Что вас интересует?");
@@ -108,6 +108,47 @@ public class BotService extends TelegramLongPollingBot {
                     break;
                 case CALL_VOLUNTEER_CMD:
                     sendMessage(chatId, VOLUNTEER_CALL);
+                    break;
+                    //передача инфо на разные кнопки меню по собакам
+                case SOCIAL_DOG_CMD:
+                    sendMessage(chatId, SOCIAL_DOG);
+                    break;
+                case DOCUMENTATION_DOG_CMD:
+                    sendMessage(chatId, DOCUMENTATION_DOG);
+                    break;
+                case TRANSPORTATION_DOG_CMD:
+                    sendMessage(chatId, TRANSPORTATION_DOG);
+                    break;
+                case COMFORT_PUPPY_DOG_CMD:
+                    sendMessage(chatId, COMFORT_PUPPY_DOG);
+                    break;
+                case COMFORT_DOG_CMD:
+                    sendMessage(chatId, COMFORT_DOG);
+                    break;
+                case COMFORT_INV_DOG_CMD:
+                    sendMessage(chatId,COMFORT_INV_DOG );
+                    break;
+                case KINOLOG_ADVICE_CMD:
+                    sendMessage(chatId,KINOLOG_ADVICE );
+                    break;
+                case COMPILATION_KINOLOG_CMD:
+                    sendMessage(chatId,COMPILATION_KINOLOG );
+                    break;
+                case WHY_DISCLAIMER_CMD:
+                    sendMessage(chatId,WHY_DISCLAIMER );
+                    break;
+                    //передачи инфо по кнопкам меню кошки
+                case SOCIAL_CAT_CMD:
+                    sendMessage(chatId, SOCIAL_CAT);
+                    break;
+                case DOCUMENTATION_CAT_CMD:
+                    sendMessage(chatId,DOCUMENTATION_CAT );
+                    break;
+                case TRANSPORTATION_CAT_CMD:
+                    sendMessage(chatId,TRANSPORTATION_CAT );
+                    break;
+                case COMFORT_CAT_CMD:
+                    sendMessage(chatId,COMFORT_CAT );
                     break;
 
                 default:
@@ -170,15 +211,15 @@ public class BotService extends TelegramLongPollingBot {
     /**
      * Метод отправки инфо-меню STEP_2
      * Вызывает метод создаия меню STEP_2
-     * {@link InlineKeyboardMaker#animalHomeMenu()}
+     * {@link InlineKeyboardMaker#animalHomeMenuDog()}
      * @param chatId чат ID
      * @param textToSend сообщение
      */
-    private void sendMenuTakeHome(long chatId, String textToSend) {
+    private void sendMenuTakeHomeDog(long chatId, String textToSend) {
         SendMessage message = new SendMessage();
         message.setChatId(String.valueOf(chatId));
         message.setText(textToSend);
-        message.setReplyMarkup(inlineKeyboardMaker.animalHomeMenu());
+        message.setReplyMarkup(inlineKeyboardMaker.animalHomeMenuDog());
         try {
             execute(message);
         } catch (TelegramApiException e) {

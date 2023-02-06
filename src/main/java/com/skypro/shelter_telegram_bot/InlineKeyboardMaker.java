@@ -59,7 +59,7 @@ public class InlineKeyboardMaker {
      * @see #getButton(String, String)
      * @return меню STEP_2
      */
-    public InlineKeyboardMarkup animalHomeMenu() {
+    public InlineKeyboardMarkup animalHomeMenuDog() {
         List<List<InlineKeyboardButton>> rowList = new ArrayList<>();
 
         for (TakeAnimalHomeMenuDogEnum animalHomeMenuDog : TakeAnimalHomeMenuDogEnum.values()) {

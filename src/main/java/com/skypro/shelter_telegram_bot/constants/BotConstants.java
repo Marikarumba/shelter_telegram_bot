@@ -21,10 +21,10 @@ public class BotConstants {
     public static final String ADDRESS_CMD = "/address";
     public static final String TAKE_HOME_MENU_DOG_CMD = "/takeDog";
     public static final String TAKE_HOME_MENU_CAT_CMD = "/takeCat";
-    public static final String SOCIAL_CMD = "/social";
-    public static final String DOCUMENTATION_CMD = "/document";
-    public static final String TRANSPORTATION_CMD = "/transport";
-    public static final String COMFORT_PUPPY_CMD = "/comfortPup";
+    public static final String SOCIAL_DOG_CMD = "/socialDog";
+    public static final String DOCUMENTATION_DOG_CMD = "/documentDog";
+    public static final String TRANSPORTATION_DOG_CMD = "/transportDog";
+    public static final String COMFORT_PUPPY_DOG_CMD = "/comfortPup";
     public static final String COMFORT_DOG_CMD = "/comfortDog";
     public static final String COMFORT_INV_DOG_CMD = "comfortInv";
     public static final String KINOLOG_ADVICE_CMD = "/kinolog";
@@ -69,7 +69,7 @@ public class BotConstants {
 
 
 
-    public static final String SOCIAL = """
+    public static final String SOCIAL_DOG = """
             Чтобы безопасно познакомиться с собакой нужно:
                         
              Правильно подойти
@@ -90,17 +90,17 @@ public class BotConstants {
             Если собака вообще никак не реагирует на лакомство, не подходит, отворачивает голову от вас отбегает, 
             вам потребуется больше времени на контакт с ней, не один день.
             """;
-    public static final String DOCUMENTATION = """
+    public static final String DOCUMENTATION_DOG = """
             Для того что бы забрать животное из приюта вам необходимы будут следующие документы:
             Паспорт потенциального владельца собаки
             Карточка постановки на учет в ветеринарной клинике
             """;
-    public static final String TRANSPORTATION = """
+    public static final String TRANSPORTATION_DOG = """
             Лучше приехать за ней на своей машине или нанять такси.
             В общественном транспорте будет некомфортно ехать ни вам, ни собаке,
             а слишком шумная обстановка может напугать животное.
             """;
-    public static final String COMFORT_PUPPY = """
+    public static final String COMFORT_PUPPY_DOG = """
             В первую очередь, нужно позаботиться о месте для питомца. Обратите внимание на форму "домика" - это может быть лежанка,
             небольшая будка или мягкая плюшевая подстилка. Все зависит от свободного места в доме и Вашей фантазии.
             В зоомагазинах можно найти лежанку на любой вкус и цвет, которая понравится собаке мелкой породы и прекрасно впишется в интерьер.
@@ -148,4 +148,23 @@ public class BotConstants {
              4 Съемное жилье
              5 Животное в подарок или для работы
             """;
+    public static final String SOCIAL_CAT_CMD = "/socialCat";
+    public static final String DOCUMENTATION_CAT_CMD = "/documentCat";
+    public static final String TRANSPORTATION_CAT_CMD = "/transportCat";
+    public static final String COMFORT_CAT_CMD = "/comfortCat";
+
+    public static final String SOCIAL_CAT = """
+            Добавить инфу о кошках
+            """;
+    public static final String DOCUMENTATION_CAT = """
+            Добавить инфу о документах для кошки
+            """;
+    public static final String TRANSPORTATION_CAT = """
+            Добавить инфу о перевозке кошек
+            """;
+    public static final String COMFORT_CAT = """
+            Добавить инфу о комфорте кошки
+            
+            """;
+
 }
