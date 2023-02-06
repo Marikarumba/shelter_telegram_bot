@@ -1,8 +1,10 @@
 package com.skypro.shelter_telegram_bot.BottomMenu;
+
 import static com.skypro.shelter_telegram_bot.constants.BotConstants.*;
+
 import lombok.Getter;
 
-public enum TakeAnimalHomeMenu {
+public enum TakeAnimalHomeMenuEnum {
     TAKE_HOME_BUTTON1(SOCIAL_CMD, "Знакомство с собакой"),
     TAKE_HOME_BUTTON2(DOCUMENTATION_CMD, "Список документов"),
     TAKE_HOME_BUTTON3(TRANSPORTATION_CMD, "Рекомендаций по транспортировке"),
@@ -21,7 +23,7 @@ public enum TakeAnimalHomeMenu {
     @Getter
     private final String buttonNameTakeHome;
 
-    TakeAnimalHomeMenu(String commandTakeHome, String buttonNameTakeHome) {
+    TakeAnimalHomeMenuEnum(String commandTakeHome, String buttonNameTakeHome) {
         this.commandTakeHome = commandTakeHome;
         this.buttonNameTakeHome = buttonNameTakeHome;
     }

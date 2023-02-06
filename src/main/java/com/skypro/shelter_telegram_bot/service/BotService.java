@@ -80,6 +80,9 @@ public class BotService extends TelegramLongPollingBot {
             String messageData = update.getCallbackQuery().getData();
             long chatId = update.getCallbackQuery().getMessage().getChatId();
             switch (messageData) {
+                case TAKE_HOME_MENU_CMD:
+                    sendMenuTakeHome(chatId, "Что вас интересует?");
+                    break;
                 case FINAL_CMD:
                     endCommandReceived(chatId, "тест");
                     break;
@@ -98,10 +101,12 @@ public class BotService extends TelegramLongPollingBot {
                 case CALL_VOLUNTEER_CMD:
                     sendMessage(chatId, VOLUNTEER_CALL);
                     break;
+
                 default:
                     sendMessage(chatId, "Sorry, no such Bottom");
                     break;
             }
+
         }
     }
 
@@ -129,7 +134,7 @@ public class BotService extends TelegramLongPollingBot {
     }
 
     /**
-     *
+     *Метод отправки меню-информации
      * @param chatId
      * @param textToSend
      */
@@ -138,6 +143,23 @@ public class BotService extends TelegramLongPollingBot {
         message.setChatId(String.valueOf(chatId));
         message.setText(textToSend);
         message.setReplyMarkup(inlineKeyboardMaker.infoShelterMenu());
+        try {
+            execute(message);
+        } catch (TelegramApiException e) {
+            log.error("Error occurred: " + e.getMessage());
+        }
+    }
+
+    /**
+     * отправка меню "как взять животное домой"
+     * @param chatId
+     * @param textToSend
+     */
+    private void sendMenuTakeHome(long chatId, String textToSend) {
+        SendMessage message = new SendMessage();
+        message.setChatId(String.valueOf(chatId));
+        message.setText(textToSend);
+        message.setReplyMarkup(inlineKeyboardMaker.animalHomeMenu());
         try {
             execute(message);
         } catch (TelegramApiException e) {
