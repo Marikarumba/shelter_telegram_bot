@@ -3,15 +3,19 @@ package com.skypro.shelter_telegram_bot.service;
 import com.skypro.shelter_telegram_bot.InlineKeyboardMaker;
 import com.skypro.shelter_telegram_bot.configuration.BotConfiguration;
 import com.skypro.shelter_telegram_bot.model.User;
+import com.skypro.shelter_telegram_bot.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.commands.SetMyCommands;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.commands.BotCommand;
 import org.telegram.telegrambots.meta.api.objects.commands.scope.BotCommandScopeDefault;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,6 +29,10 @@ import static com.skypro.shelter_telegram_bot.constants.BotConstants.*;
 @Component
 public class BotService extends TelegramLongPollingBot {
     private final UserService userService;
+
+    @Autowired
+    private UserRepository userRepository;
+
     final BotConfiguration botConfiguration;
 
     private final InlineKeyboardMaker inlineKeyboardMaker;
@@ -35,7 +43,8 @@ public class BotService extends TelegramLongPollingBot {
     /**
      * В этот конструктор можно вписать команды, которые будут открываться при нажатии кнопки меню.
      * Эта кнопка меню общая, доступна из любых разделов программы
-     * @param botConfiguration DI  конфигуратор
+     *
+     * @param botConfiguration    DI  конфигуратор
      * @param inlineKeyboardMaker DI создание меню
      */
     public BotService(UserService userService, BotConfiguration botConfiguration, InlineKeyboardMaker inlineKeyboardMaker) {
@@ -72,6 +81,7 @@ public class BotService extends TelegramLongPollingBot {
      * {@link #sendMessage(long, String)} )}
      * {@link #sendMenuTakeHome(long, String)}
      * {@link #sendMenuIfo(long, String)}
+     *
      * @param update сообщения от пользователя (обновления)
      */
     // messageText (текстовые команды)
@@ -84,10 +94,11 @@ public class BotService extends TelegramLongPollingBot {
             switch (messageText) {
                 case INITIAL_CMD:
                     startCommandReceived(chatId, update.getMessage().getChat().getFirstName());
+                    addInformationOfUser(update.getMessage());
                     break;
                 default:
                     sendMessage(chatId, "Sorry, no such command");
-                break;
+                    break;
             }
         } else if (update.hasCallbackQuery()) {
             String messageData = update.getCallbackQuery().getData();
@@ -106,10 +117,10 @@ public class BotService extends TelegramLongPollingBot {
                     sendMessage(chatId, SHELTER_INFO);
                     break;
                 case ADDRESS_CMD:
-                    sendMessage(chatId,SHELTER_ADDRESS);
+                    sendMessage(chatId, SHELTER_ADDRESS);
                     break;
                 case RULES_CMD:
-                    sendMessage(chatId,SHELTER_RULES);
+                    sendMessage(chatId, SHELTER_RULES);
                     break;
                 case CALL_VOLUNTEER_CMD:
                     sendMessage(chatId, VOLUNTEER_CALL);
@@ -121,7 +132,7 @@ public class BotService extends TelegramLongPollingBot {
                     } catch (TelegramApiException e) {
                         throw new RuntimeException(e);
                     }
-                    addInformationOfUser(chatId, messageData);
+//                    addInformationOfUser(chatId, messageData);
                     break;
                 default:
                     sendMessage(chatId, "Sorry, no such Bottom");
@@ -130,12 +141,14 @@ public class BotService extends TelegramLongPollingBot {
 
         }
     }
+
     /**
      * Метод отправки стартового сообщения
      * Вызывает метод отправки меню STEP_0
-     * @see #sendStartMenu(long, String)
+     *
      * @param chatId чат ID
-     * @param name имя пользователя
+     * @param name   имя пользователя
+     * @see #sendStartMenu(long, String)
      */
     private void startCommandReceived(long chatId, String name) {
         String answer = name + GREETING_MSG;
@@ -152,7 +165,8 @@ public class BotService extends TelegramLongPollingBot {
      * Метод отправки стартового меню STEP_0
      * Вызывает метод создания меню STEP_0
      * {@link InlineKeyboardMaker#getInlineMessageButtons()}
-     * @param chatId чат ID
+     *
+     * @param chatId     чат ID
      * @param textToSend сообщение
      */
     private void sendStartMenu(long chatId, String textToSend) {
@@ -171,7 +185,8 @@ public class BotService extends TelegramLongPollingBot {
      * Метод отправки инфо-меню STEP_1
      * Вызывает метод создаия меню STEP_1
      * {@link InlineKeyboardMaker#infoShelterMenu()}
-     * @param chatId чат ID
+     *
+     * @param chatId     чат ID
      * @param textToSend сообщение
      */
     private void sendMenuIfo(long chatId, String textToSend) {
@@ -190,7 +205,8 @@ public class BotService extends TelegramLongPollingBot {
      * Метод отправки инфо-меню STEP_2
      * Вызывает метод создаия меню STEP_2
      * {@link InlineKeyboardMaker#animalHomeMenu()}
-     * @param chatId чат ID
+     *
+     * @param chatId     чат ID
      * @param textToSend сообщение
      */
     private void sendMenuTakeHome(long chatId, String textToSend) {
@@ -206,8 +222,8 @@ public class BotService extends TelegramLongPollingBot {
     }
 
     // Тестовый метод создания меню 3 мапой
-    private void endCommandReceived(long chatId, String textToSend){
-        HashMap<String,String> menuStep3 = new HashMap<>();
+    private void endCommandReceived(long chatId, String textToSend) {
+        HashMap<String, String> menuStep3 = new HashMap<>();
         menuStep3.put("Отправить отчет", "SEND_REPORT_CMD");
         menuStep3.put("Отправить отчет2", "SEND_REPORT_CMD2");
         SendMessage message = new SendMessage();
@@ -216,8 +232,7 @@ public class BotService extends TelegramLongPollingBot {
         message.setReplyMarkup(inlineKeyboardMaker.getInlineMessageButtonsByMap(menuStep3));
         try {
             execute(message);
-        }
-        catch (TelegramApiException e){
+        } catch (TelegramApiException e) {
             log.error("Error occurred: " + e.getMessage());
         }
         log.info("Replied to user: ");
@@ -227,7 +242,8 @@ public class BotService extends TelegramLongPollingBot {
 
     /**
      * Метод отправки сообщений
-     * @param chatId чат ID
+     *
+     * @param chatId     чат ID
      * @param textToSend сообщение
      */
     private void sendMessage(long chatId, String textToSend) {
@@ -240,22 +256,43 @@ public class BotService extends TelegramLongPollingBot {
             log.error("Error occurred: " + e.getMessage());
         }
     }
+
     /**
      * Метод, который принимает от пользователя данные и сохраняет их в базу данных.
      *
      * @return
      */
-    private void addInformationOfUser(long chatId, String message){
-        Matcher messageMatcher = pattern.matcher(message);
-        String stringName = messageMatcher.group(1);
-        String notificationText = messageMatcher.group(3);
+    private void addInformationOfUser(Message message) {
+        if (userRepository.findById(message.getChatId()).isEmpty()) {
+            var chatId = message.getChatId();
+            var chat = message.getChat();
             User user = new User();
-            user.setName(stringName);
-            user.setPhoneNumber(notificationText);
-            user.setChatId(chatId);
+            user.setName(chat.getFirstName() + chat.getLastName());
+            user.setPhoneNumber(message.getText());
             userService.createUser(user);
+            userRepository.save(user);
         }
+//        String[] strings = message.split(" ");
 
+//        Matcher messageMatcher = pattern.matcher(message);
+//        String stringName = messageMatcher.group(1);
+//        String notificationText = messageMatcher.group(3);
+//            User user = new User();
+//            user.setName(strings[0]);
+//            user.setPhoneNumber(strings[1]);
+//           // user.setChatId(chatId);
+//            userService.createUser(user);
+    }
+
+    private void addUserForDB(Update update) {
+        String messageText = update.getMessage().getText();
+        long chatId = update.getMessage().getChatId();
+        String userName = update.getMessage().getChat().getFirstName();
+        User user = new User();
+        user.setName(userName);
+        user.setPhoneNumber(messageText);
+        userService.createUser(user);
+    }
 
 
 }

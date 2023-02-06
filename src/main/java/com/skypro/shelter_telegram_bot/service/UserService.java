@@ -20,14 +20,14 @@ public class UserService {
         }
 
         public User createUser(User user) {
-            if (user.getName().isBlank() || user.getName().isBlank()) {
-                throw new WrongInputFormatException("Имя пользователя не найдено");
-            }
-            if (user.getPhoneNumber() != null) {
-                user.setPhoneNumber(checkPhoneNumber(user.getPhoneNumber()));
-            } else {
-                throw new WrongInputFormatException("Телефон пользователя не указан или не соответсвует формату");
-            }
+//            if (user.getContact().firstName().isBlank() || user.getContact().firstName().isBlank()) {
+//                throw new WrongInputFormatException("Имя пользователя не найдено");
+//            }
+//            if (user.getContact().phoneNumber() != null) {
+//                user.setContact() (checkPhoneNumber(user.getContact().phoneNumber()));
+//            } else {
+//                throw new WrongInputFormatException("Телефон пользователя не указан или не соответсвует формату");
+//            }
             return this.userRepository.save(user);
         }
 
