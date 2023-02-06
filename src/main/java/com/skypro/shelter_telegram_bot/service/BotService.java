@@ -145,6 +145,7 @@ public class BotService extends TelegramLongPollingBot {
         }
     }
 
+
     // Тестовый метод
     private void endCommandReceived(long chatId, String textToSend){
         HashMap<String,String> menuStep3 = new HashMap<>();

@@ -2,9 +2,8 @@ package com.skypro.shelter_telegram_bot.constants;
 
 public class BotConstants {
 
-
     public static final String GREETING_MSG = """
-             ,привет!
+            , привет!
             Я - Бот приюта домашних животных! Если хочешь взять собаку или кошку домой я отвечу на твои вопросы,
             так же можешь присылать мне отчеты о том как чувствуют себя наши животные!
             Чем я могу  помочь?
@@ -23,14 +22,21 @@ public class BotConstants {
     public static final String ADDRESS_CMD = "/address";
     public static final String RULES_CMD = "/rules";
 
+
+
+
+
+
+
+
     /*
     Константы по менюИнфо
      */
     public static final String SHELTER_INFO = """
              Мы приют для животных из Астаны!
             Наша цель - помочь нашим питомцам обрести новый дом!
-            Все наши животные привиты, стерилизованы и хорошо
-            воспитанны!
+            Все наши животные привиты, стерилизованы и хорошо 
+            воспитанны!     
             """;
 
     public static final String SHELTER_ADDRESS = """
