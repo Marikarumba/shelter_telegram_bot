@@ -8,7 +8,7 @@ import lombok.Getter;
     Инфо меню STEP_2
     Меню в которое попадаешь после нажатия 1 кнопки в главном меню STEP_0 (Как взять животное)
      */
-public enum TakeAnimalHomeMenuEnum {
+public enum TakeAnimalHomeMenuDogEnum {
     TAKE_HOME_BUTTON1(SOCIAL_CMD, "Знакомство с собакой"),
     TAKE_HOME_BUTTON2(DOCUMENTATION_CMD, "Список документов"),
     TAKE_HOME_BUTTON3(TRANSPORTATION_CMD, "Рекомендаций по транспортировке"),
@@ -22,13 +22,13 @@ public enum TakeAnimalHomeMenuEnum {
     TAKE_HOME_BUTTON11(CALL_BACK_CMD, "Заказать обратный звонок");
 
     @Getter
-    private final String commandTakeHome;
+    private final String commandTakeHomeDog;
 
     @Getter
-    private final String buttonNameTakeHome;
+    private final String buttonNameTakeHomeDog;
 
-    TakeAnimalHomeMenuEnum(String commandTakeHome, String buttonNameTakeHome) {
-        this.commandTakeHome = commandTakeHome;
-        this.buttonNameTakeHome = buttonNameTakeHome;
+    TakeAnimalHomeMenuDogEnum(String commandTakeHomeDog, String buttonNameTakeHomeDog) {
+        this.commandTakeHomeDog = commandTakeHomeDog;
+        this.buttonNameTakeHomeDog = buttonNameTakeHomeDog;
     }
 }

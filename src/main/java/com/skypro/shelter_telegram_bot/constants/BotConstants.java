@@ -19,8 +19,8 @@ public class BotConstants {
     public static final String CALL_BACK_CMD = "/callback";
     public static final String RULES_CMD = "/rules";
     public static final String ADDRESS_CMD = "/address";
-    public static final String TAKE_HOME_MENU_CMD = "/take";
-
+    public static final String TAKE_HOME_MENU_DOG_CMD = "/takeDog";
+    public static final String TAKE_HOME_MENU_CAT_CMD = "/takeCat";
     public static final String SOCIAL_CMD = "/social";
     public static final String DOCUMENTATION_CMD = "/document";
     public static final String TRANSPORTATION_CMD = "/transport";

@@ -85,8 +85,11 @@ public class BotService extends TelegramLongPollingBot {
             String messageData = update.getCallbackQuery().getData();
             long chatId = update.getCallbackQuery().getMessage().getChatId();
             switch (messageData) {
-                case TAKE_HOME_MENU_CMD:
+                case TAKE_HOME_MENU_DOG_CMD:
                     sendMenuTakeHome(chatId, "Что вас интересует?");
+                    break;
+                case TAKE_HOME_MENU_CAT_CMD:
+                    sendMenuTakeHomeCat(chatId, "Что вас интересует?");
                     break;
                 case FINAL_CMD:
                     endCommandReceived(chatId, "тест");
@@ -176,6 +179,17 @@ public class BotService extends TelegramLongPollingBot {
         message.setChatId(String.valueOf(chatId));
         message.setText(textToSend);
         message.setReplyMarkup(inlineKeyboardMaker.animalHomeMenu());
+        try {
+            execute(message);
+        } catch (TelegramApiException e) {
+            log.error("Error occurred: " + e.getMessage());
+        }
+    }
+    private void sendMenuTakeHomeCat(long chatId, String textToSend) {
+        SendMessage message = new SendMessage();
+        message.setChatId(String.valueOf(chatId));
+        message.setText(textToSend);
+        message.setReplyMarkup(inlineKeyboardMaker.animalHomeMenuCat());
         try {
             execute(message);
         } catch (TelegramApiException e) {

@@ -2,10 +2,12 @@ package com.skypro.shelter_telegram_bot;
 
 import com.skypro.shelter_telegram_bot.BottomMenu.InfoShelterMenuEnum;
 import com.skypro.shelter_telegram_bot.BottomMenu.StartMenuResourceEnum;
-import com.skypro.shelter_telegram_bot.BottomMenu.TakeAnimalHomeMenuEnum;
+import com.skypro.shelter_telegram_bot.BottomMenu.TakeAnimalHomeMenuCatEnum;
+import com.skypro.shelter_telegram_bot.BottomMenu.TakeAnimalHomeMenuDogEnum;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -60,10 +62,22 @@ public class InlineKeyboardMaker {
     public InlineKeyboardMarkup animalHomeMenu() {
         List<List<InlineKeyboardButton>> rowList = new ArrayList<>();
 
-        for (TakeAnimalHomeMenuEnum animalHomeMenu : TakeAnimalHomeMenuEnum.values()) {
+        for (TakeAnimalHomeMenuDogEnum animalHomeMenuDog : TakeAnimalHomeMenuDogEnum.values()) {
             rowList.add(getButton(
-                    animalHomeMenu.getButtonNameTakeHome(),
-                    animalHomeMenu.getCommandTakeHome()));
+                    animalHomeMenuDog.getButtonNameTakeHomeDog(),
+                    animalHomeMenuDog.getCommandTakeHomeDog()));
+        }
+        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
+        inlineKeyboardMarkup.setKeyboard(rowList);
+        return inlineKeyboardMarkup;
+    }
+    public InlineKeyboardMarkup animalHomeMenuCat() {
+        List<List<InlineKeyboardButton>> rowList = new ArrayList<>();
+
+        for (TakeAnimalHomeMenuCatEnum animalHomeMenuCat : TakeAnimalHomeMenuCatEnum.values()) {
+            rowList.add(getButton(
+                    animalHomeMenuCat.getButtonNameTakeHomeCat(),
+                    animalHomeMenuCat.getCommandTakeHomeCat()));
         }
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
         inlineKeyboardMarkup.setKeyboard(rowList);
