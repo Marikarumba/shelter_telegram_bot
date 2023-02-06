@@ -4,6 +4,10 @@ import static com.skypro.shelter_telegram_bot.constants.BotConstants.*;
 
 import lombok.Getter;
 
+    /*
+    Инфо меню STEP_2
+    Меню в которое попадаешь после нажатия 1 кнопки в главном меню STEP_0 (Как взять животное)
+     */
 public enum TakeAnimalHomeMenuEnum {
     TAKE_HOME_BUTTON1(SOCIAL_CMD, "Знакомство с собакой"),
     TAKE_HOME_BUTTON2(DOCUMENTATION_CMD, "Список документов"),

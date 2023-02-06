@@ -27,9 +27,9 @@ public class BotService extends TelegramLongPollingBot {
 
     /**
      * В этот конструктор можно вписать команды, которые будут открываться при нажатии кнопки меню.
-     * Эта кнопка общая, доступна из любых разделов программы
-     * @param botConfiguration
-     * @param inlineKeyboardMaker
+     * Эта кнопка меню общая, доступна из любых разделов программы
+     * @param botConfiguration DI  конфигуратор
+     * @param inlineKeyboardMaker DI создание меню
      */
     public BotService(BotConfiguration botConfiguration, InlineKeyboardMaker inlineKeyboardMaker) {
         this.botConfiguration = botConfiguration;
@@ -58,8 +58,13 @@ public class BotService extends TelegramLongPollingBot {
     }
 
     /**
-     * Метод для реагирования на команды:
-     * @param update
+     * Метод для реагирования на команды
+     * Вызывает методы:
+     * {@link #startCommandReceived(long, String)}
+     * {@link #sendMessage(long, String)} )}
+     * {@link #sendMenuTakeHome(long, String)}
+     * {@link #sendMenuIfo(long, String)}
+     * @param update сообщения от пользователя (обновления)
      */
     // messageText (текстовые команды)
     // messageData (команды кнопок)
@@ -109,17 +114,24 @@ public class BotService extends TelegramLongPollingBot {
 
         }
     }
-
-    // Метод отправки стартового сообщения, вызывает метод отправки меню STEP_0
+    /**
+     * Метод отправки стартового сообщения
+     * Вызывает метод отправки меню STEP_0
+     * @see #sendStartMenu(long, String)
+     * @param chatId чат ID
+     * @param name имя пользователя
+     */
     private void startCommandReceived(long chatId, String name) {
         String answer = name + GREETING_MSG;
         log.info("Start to user: " + name);
         sendStartMenu(chatId, answer);
     }
     /**
-     * Метод отправки стартового меню
-     * @param chatId
-     * @param textToSend
+     * Метод отправки стартового меню STEP_0
+     * Вызывает метод создания меню STEP_0
+     * {@link InlineKeyboardMaker#getInlineMessageButtons()}
+     * @param chatId чат ID
+     * @param textToSend сообщение
      */
     private void sendStartMenu(long chatId, String textToSend) {
         SendMessage message = new SendMessage();
@@ -134,9 +146,11 @@ public class BotService extends TelegramLongPollingBot {
     }
 
     /**
-     *Метод отправки меню-информации
-     * @param chatId
-     * @param textToSend
+     * Метод отправки инфо-меню STEP_1
+     * Вызывает метод создаия меню STEP_1
+     * {@link InlineKeyboardMaker#infoShelterMenu()}
+     * @param chatId чат ID
+     * @param textToSend сообщение
      */
     private void sendMenuIfo(long chatId, String textToSend) {
         SendMessage message = new SendMessage();
@@ -151,9 +165,11 @@ public class BotService extends TelegramLongPollingBot {
     }
 
     /**
-     * отправка меню "как взять животное домой"
-     * @param chatId
-     * @param textToSend
+     * Метод отправки инфо-меню STEP_2
+     * Вызывает метод создаия меню STEP_2
+     * {@link InlineKeyboardMaker#animalHomeMenu()}
+     * @param chatId чат ID
+     * @param textToSend сообщение
      */
     private void sendMenuTakeHome(long chatId, String textToSend) {
         SendMessage message = new SendMessage();
@@ -167,7 +183,7 @@ public class BotService extends TelegramLongPollingBot {
         }
     }
 
-    // Тестовый метод
+    // Тестовый метод создания меню 3 мапой
     private void endCommandReceived(long chatId, String textToSend){
         HashMap<String,String> menuStep3 = new HashMap<>();
         menuStep3.put("Отправить отчет", "SEND_REPORT_CMD");
@@ -189,8 +205,8 @@ public class BotService extends TelegramLongPollingBot {
 
     /**
      * Метод отправки сообщений
-     * @param chatId
-     * @param textToSend
+     * @param chatId чат ID
+     * @param textToSend сообщение
      */
     private void sendMessage(long chatId, String textToSend) {
         SendMessage message = new SendMessage();

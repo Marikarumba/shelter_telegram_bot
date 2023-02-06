@@ -14,8 +14,10 @@ import java.util.Map;
 public class InlineKeyboardMaker {
 
     /**
-     * Метод для главного меню
-     * @return
+     * Метод для создания меню STEP_0
+     * Вызывает метод создания кнопки
+     * @see #getButton(String, String)
+     * @return меню STEP_0
      */
     public InlineKeyboardMarkup getInlineMessageButtons() {
         List<List<InlineKeyboardButton>> rowList = new ArrayList<>();
@@ -31,8 +33,10 @@ public class InlineKeyboardMaker {
     }
 
     /**
-     * Метод для меню информации о приюте
-     * @return
+     * Метод для создания инфо-меню STEP_1
+     * Вызывает метод создания кнопки
+     * @see #getButton(String, String)
+     * @return меню STEP_1
      */
     public InlineKeyboardMarkup infoShelterMenu() {
         List<List<InlineKeyboardButton>> rowList = new ArrayList<>();
@@ -48,9 +52,10 @@ public class InlineKeyboardMaker {
     }
 
     /**
-     * Метод для меню о том как взять животное домой
-     *
-     * @return
+     * Метод для создания инфо-меню STEP_2
+     * Вызывает метод создания кнопки
+     * @see #getButton(String, String)
+     * @return меню STEP_2
      */
     public InlineKeyboardMarkup animalHomeMenu() {
         List<List<InlineKeyboardButton>> rowList = new ArrayList<>();
@@ -64,7 +69,7 @@ public class InlineKeyboardMaker {
         inlineKeyboardMarkup.setKeyboard(rowList);
         return inlineKeyboardMarkup;
     }
-    // Тестовый метод кнопки
+    // Тестовый метод кнопки по мапе
     public InlineKeyboardMarkup getInlineMessageButtonsByMap(Map<String,String> map) {
         List<List<InlineKeyboardButton>> rowList = new ArrayList<>();
 
@@ -82,9 +87,9 @@ public class InlineKeyboardMaker {
 
     /**
      * Создание кнопок, общий метод для всех меню
-     * @param buttonName
-     * @param command
-     * @return
+     * @param buttonName имя кнопки
+     * @param command команда, которую выполняет
+     * @return кнопку
      */
     private List<InlineKeyboardButton> getButton(String buttonName, String command) {
         InlineKeyboardButton button = new InlineKeyboardButton();
