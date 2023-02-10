@@ -1,42 +1,26 @@
 package com.skypro.shelter_telegram_bot.model;
 
-public class User {
+import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
 
+import javax.persistence.*;
+import java.time.LocalDateTime;
+@Data
+@Entity
+@Table(name = "app_user")
+public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
     private Long chatId;
+    private String name;
+    private String userName;
+    private Boolean isActive;
+    private String telephone_number;
+    @CreationTimestamp
+    private LocalDateTime firstLoginDate;
+    @Enumerated(EnumType.STRING)
     private UserStatus personStatus;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Long getChatId() {
-        return chatId;
-    }
-
-    public void setChatId(Long chatId) {
-        this.chatId = chatId;
-    }
-
-    public UserStatus getPersonStatus() {
-        return personStatus;
-    }
-
-    public void setPersonStatus(UserStatus personStatus) {
-        this.personStatus = personStatus;
-    }
 
 }

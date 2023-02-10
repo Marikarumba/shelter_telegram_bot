@@ -2,6 +2,8 @@ package com.skypro.shelter_telegram_bot.service;
 
 import com.skypro.shelter_telegram_bot.InlineKeyboardMaker;
 import com.skypro.shelter_telegram_bot.configuration.BotConfiguration;
+import com.skypro.shelter_telegram_bot.model.User;
+import com.skypro.shelter_telegram_bot.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -25,15 +27,20 @@ public class BotService extends TelegramLongPollingBot {
 
     private final InlineKeyboardMaker inlineKeyboardMaker;
 
+    private final UserRepository userRepository;
+
     /**
      * В этот конструктор можно вписать команды, которые будут открываться при нажатии кнопки меню.
      * Эта кнопка меню общая, доступна из любых разделов программы
-     * @param botConfiguration DI  конфигуратор
+     *
+     * @param botConfiguration    DI  конфигуратор
      * @param inlineKeyboardMaker DI создание меню
+     * @param userRepository
      */
-    public BotService(BotConfiguration botConfiguration, InlineKeyboardMaker inlineKeyboardMaker) {
+    public BotService(BotConfiguration botConfiguration, InlineKeyboardMaker inlineKeyboardMaker, UserRepository userRepository) {
         this.botConfiguration = botConfiguration;
         this.inlineKeyboardMaker = inlineKeyboardMaker;
+        this.userRepository = userRepository;
         //Создание кнопки меню
         List<BotCommand> listOfCommands = new ArrayList<>();
         listOfCommands.add(new BotCommand("/start", "Запуск"));
@@ -76,6 +83,9 @@ public class BotService extends TelegramLongPollingBot {
             switch (messageText) {
                 case INITIAL_CMD:
                     startCommandReceived(chatId, update.getMessage().getChat().getFirstName());
+                    var textMessage = update.getMessage();
+                    var user = textMessage.getFrom();
+                    var appUser = findOrSaveUser(user);
                     break;
                 default:
                     sendMessage(chatId, "Sorry, no such command");
@@ -108,6 +118,9 @@ public class BotService extends TelegramLongPollingBot {
                     break;
                 case CALL_VOLUNTEER_CMD:
                     sendMessage(chatId, VOLUNTEER_CALL);
+                    break;
+                case CALL_BACK_CMD:
+                    processUpdate(chatId, update);
                     break;
                     //передача инфо на разные кнопки меню по собакам
                 case SOCIAL_DOG_CMD:
@@ -272,5 +285,34 @@ public class BotService extends TelegramLongPollingBot {
         } catch (TelegramApiException e) {
             log.error("Error occurred: " + e.getMessage());
         }
+    }
+
+    /**
+     Метод для добавления нового юзера в базу данных
+     * @param user
+     * @return
+     */
+    private User findOrSaveUser(org.telegram.telegrambots.meta.api.objects.User user){
+        User persistentUser = userRepository.findUserByChatId(user.getId());
+        if (persistentUser==null){
+           User transientUser= new User();
+           transientUser.setChatId(user.getId());
+           transientUser.setName(user.getFirstName()+user.getLastName());
+           transientUser.setUserName(user.getUserName());
+           transientUser.setIsActive(true);
+           transientUser.setTelephone_number(user.getSupportInlineQueries().toString());
+    return userRepository.save(transientUser);
+        }
+        return persistentUser;
+    }
+    private void processUpdate(Long chatId, Update update) {
+        String userMessage = update.getMessage().getText();
+            String[] userMessages = userMessage.split(" ");
+            User user = new User();
+            user.setName(userMessages[0]);
+            user.setTelephone_number(userMessages[1]);
+            userRepository.save(user);
+
+            sendMessage(chatId, "Данные успешно записаны");
     }
 }
