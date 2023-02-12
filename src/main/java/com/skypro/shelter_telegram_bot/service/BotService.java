@@ -2,8 +2,9 @@ package com.skypro.shelter_telegram_bot.service;
 
 import com.skypro.shelter_telegram_bot.InlineKeyboardMaker;
 import com.skypro.shelter_telegram_bot.configuration.BotConfiguration;
-import com.skypro.shelter_telegram_bot.model.User;
-import com.skypro.shelter_telegram_bot.repository.UserRepository;
+import com.skypro.shelter_telegram_bot.model.UserCatShelter;
+import com.skypro.shelter_telegram_bot.model.UserStatus;
+import com.skypro.shelter_telegram_bot.repository.UserCatRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -27,7 +28,8 @@ public class BotService extends TelegramLongPollingBot {
 
     private final InlineKeyboardMaker inlineKeyboardMaker;
 
-    private final UserRepository userRepository;
+    private final UserCatRepository userCatRepository;
+    private final UserService userService;
 
     /**
      * В этот конструктор можно вписать команды, которые будут открываться при нажатии кнопки меню.
@@ -35,12 +37,14 @@ public class BotService extends TelegramLongPollingBot {
      *
      * @param botConfiguration    DI  конфигуратор
      * @param inlineKeyboardMaker DI создание меню
-     * @param userRepository
+     * @param userCatRepository
+     * @param userService
      */
-    public BotService(BotConfiguration botConfiguration, InlineKeyboardMaker inlineKeyboardMaker, UserRepository userRepository) {
+    public BotService(BotConfiguration botConfiguration, InlineKeyboardMaker inlineKeyboardMaker, UserCatRepository userCatRepository, UserService userService) {
         this.botConfiguration = botConfiguration;
         this.inlineKeyboardMaker = inlineKeyboardMaker;
-        this.userRepository = userRepository;
+        this.userCatRepository = userCatRepository;
+        this.userService = userService;
         //Создание кнопки меню
         List<BotCommand> listOfCommands = new ArrayList<>();
         listOfCommands.add(new BotCommand("/start", "Запуск"));
@@ -83,9 +87,9 @@ public class BotService extends TelegramLongPollingBot {
             switch (messageText) {
                 case INITIAL_CMD:
                     startCommandReceived(chatId, update.getMessage().getChat().getFirstName());
-                    var textMessage = update.getMessage();
-                    var user = textMessage.getFrom();
-                    var appUser = findOrSaveUser(user);
+                    if (!isUserExist(update)) {
+                        saveCatUser(update);
+                    }
                     break;
                 default:
                     sendMessage(chatId, "Sorry, no such command");
@@ -289,29 +293,35 @@ public class BotService extends TelegramLongPollingBot {
 
     /**
      Метод для добавления нового юзера в базу данных
-     * @param user
+     * @param
      * @return
      */
-    private User findOrSaveUser(org.telegram.telegrambots.meta.api.objects.User user){
-        User persistentUser = userRepository.findUserByChatId(user.getId());
-        if (persistentUser==null){
-           User transientUser= new User();
-           transientUser.setChatId(user.getId());
-           transientUser.setName(user.getFirstName()+user.getLastName());
-           transientUser.setUserName(user.getUserName());
-           transientUser.setIsActive(true);
-           transientUser.setTelephone_number(user.getSupportInlineQueries().toString());
-    return userRepository.save(transientUser);
-        }
-        return persistentUser;
+    public void saveCatUser(Update update){
+        if (update.hasMessage() && update.getMessage().hasText()) {
+            long chatId = update.getMessage().getChatId();
+            String username = update.getMessage().getChat().getUserName().toString();
+                UserCatShelter newUser = new UserCatShelter();
+                newUser.setChatId(chatId);
+                newUser.setUserName(username);
+                newUser.setPersonStatus(UserStatus.NEW_PERSON);
+                userCatRepository.save(newUser);
+            }
     }
+    public boolean isUserExist(Update update) {
+        if (update.hasMessage() && update.getMessage().hasText()) {
+            long chatId = update.getMessage().getChatId();
+            if (userCatRepository.findUserCatShelterByChatId(chatId) == null) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     private void processUpdate(Long chatId, Update update) {
         String userMessage = update.getMessage().getText();
             String[] userMessages = userMessage.split(" ");
-            User user = new User();
-            user.setName(userMessages[0]);
-            user.setTelephone_number(userMessages[1]);
-            userRepository.save(user);
+            UserCatShelter user = new UserCatShelter();
+            userCatRepository.save(user);
 
             sendMessage(chatId, "Данные успешно записаны");
     }
